@@ -307,18 +307,8 @@ set(LLVM_INCLUDE_DIR ${CMAKE_CURRENT_BINARY_DIR}/include)
 
 # List of all targets to be built by default:
 set(LLVM_ALL_TARGETS
-  AArch64
   AMDGPU
-  ARM
-  BPF
-  Hexagon
-  Lanai
-  Mips
-  MSP430
   NVPTX
-  PowerPC
-  Sparc
-  SystemZ
   X86
   XCore
   )
@@ -635,6 +625,9 @@ if (LLVM_USE_OPROFILE)
 endif (LLVM_USE_OPROFILE)
 
 message(STATUS "Constructing LLVMBuild project information")
+
+message("build target: " ${LLVM_TARGETS_TO_BUILD} )
+
 execute_process(
   COMMAND ${PYTHON_EXECUTABLE} -B ${LLVMBUILDTOOL}
             --native-target "${LLVM_NATIVE_ARCH}"
@@ -653,15 +646,16 @@ execute_process(
 if( NOT "${LLVMBUILDOUTPUT}" STREQUAL "")
   message(STATUS "llvm-build output: ${LLVMBUILDOUTPUT}")
 endif()
+
 if( NOT "${LLVMBUILDRESULT}" STREQUAL "0" )
-  message(FATAL_ERROR
-    "Unexpected failure executing llvm-build: ${LLVMBUILDERRORS}")
+  message(FATAL_ERROR "Unexpected failure executing llvm-build: ${LLVMBUILDERRORS}")
 endif()
 
 # Include the generated CMake fragment. This will define properties from the
 # LLVMBuild files in a format which is easy to consume from CMake, and will add
 # the dependencies so that CMake will reconfigure properly when the LLVMBuild
 # files change.
+
 include(${LLVMBUILDCMAKEFRAG})
 
 ######
