@@ -308,9 +308,7 @@ set(LLVM_INCLUDE_DIR ${CMAKE_CURRENT_BINARY_DIR}/include)
 # List of all targets to be built by default:
 set(LLVM_ALL_TARGETS
   AMDGPU
-  NVPTX
   X86
-  XCore
   )
 
 # List of targets with JIT support:
